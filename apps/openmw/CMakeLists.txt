@@ -10,6 +10,12 @@ if (SWITCH_LIBNX)
         ${CMAKE_SOURCE_DIR}/apps/mwiniimporter/importer.cpp
         switch_startup.cpp
         )
+    
+    if (SWITCH_USE_GUI)
+        set(GAME ${GAME}
+            switch_ui.cpp
+            )
+    endif()
 endif()
 
 if (WIN32)

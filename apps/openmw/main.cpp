@@ -1,3 +1,7 @@
+#if defined(SWITCH_GUI)
+#include "switch_ui.hpp"
+#endif
+
 #include <components/version/version.hpp>
 #include <components/files/configurationmanager.hpp>
 #include <components/files/escape.hpp>
@@ -274,6 +278,8 @@ int runApplication(int argc, char *argv[])
 
 #ifdef ANDROID
 extern "C" int SDL_main(int argc, char**argv)
+#else if defined(SWITCH_GUI)
+int openmw_main(int argc, char**argv)
 #else
 int main(int argc, char**argv)
 #endif

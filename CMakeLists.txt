@@ -13,6 +13,10 @@ option(BUILD_DOCS               "Build documentation." OFF )
 option(BUILD_WITH_CODE_COVERAGE "Enable code coverage with gconv" OFF)
 option(BUILD_UNITTESTS          "Enable Unittests with Google C++ Unittest" OFF)
 
+if (SWITCH_LIBNX)
+    option(SWITCH_USE_GUI "Start with a GUI menu before starting the game" OFF)
+endif()
+
 if (NOT BUILD_LAUNCHER AND NOT BUILD_OPENCS AND NOT BUILD_WIZARD)
    set(USE_QT FALSE)
 else()
@@ -331,6 +335,12 @@ find_package(MyGUI 3.2.2 REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(OpenAL REQUIRED)
 find_package(Bullet ${REQUIRED_BULLET_VERSION} REQUIRED COMPONENTS BulletCollision LinearMath)
+
+if (SWITCH_USE_GUI)
+    find_package(pu REQUIRED)
+    add_definitions (-DSWITCH_GUI)
+    include_directories(${pu_INCLUDE_DIR})
+endif()
 
 include_directories("."
     ${SDL2_INCLUDE_DIR}
