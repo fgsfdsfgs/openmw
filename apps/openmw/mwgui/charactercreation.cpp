@@ -16,6 +16,10 @@
 #include "../mwworld/esmstore.hpp"
 #include "../mwworld/player.hpp"
 
+#ifdef __SWITCH__
+#import "../switch_startup.hpp"
+#endif
+
 #include "textinput.hpp"
 #include "race.hpp"
 #include "class.hpp"
@@ -78,6 +82,9 @@ namespace MWGui
         , mBirthSignDialog(0)
         , mReviewDialog(0)
         , mGenerateClassStep(0)
+#ifdef __SWITCH__
+        , mPlayerName((Switch::getUsername() == "global" ? "" : Switch::getUsername()))
+#endif
     {
         mCreationStage = CSE_NotStarted;
         mGenerateClassSpecializations[0] = 0;
