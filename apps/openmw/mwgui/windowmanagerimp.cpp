@@ -1708,7 +1708,11 @@ namespace MWGui
 
     bool WindowManager::getCursorVisible()
     {
+        #if defined(__SWITCH__) || defined(__ANDROID__)
+        return mCursorVisible;
+        #else
         return mCursorVisible && mCursorActive;
+        #endif
     }
 
     void WindowManager::trackWindow(Layout *layout, const std::string &name)

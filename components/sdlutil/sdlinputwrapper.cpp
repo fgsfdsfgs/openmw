@@ -155,6 +155,9 @@ InputWrapper::InputWrapper(SDL_Window* window, osg::ref_ptr<osgViewer::Viewer> v
                 case SDL_FINGERMOTION:
 #ifdef __SWITCH__
                     // simulate mouse
+                    if (SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE)
+                        break;
+                    
                     mMouseListener->mouseMoved(_packageTouchMouseMotion(evt));
                     if (evt.type == SDL_FINGERDOWN)
                         mMouseListener->mousePressed(_packageTouchMouseButton(evt), SDL_BUTTON_LEFT);
