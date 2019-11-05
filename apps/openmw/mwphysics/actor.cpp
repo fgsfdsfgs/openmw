@@ -53,7 +53,8 @@ Actor::Actor(const MWWorld::Ptr& ptr, osg::ref_ptr<const Resource::BulletShape> 
         if (mHalfExtents.length2() == 0.f)
             Log(Debug::Error) << "Error: Failed to calculate bounding box for actor \"" << ptr.getCellRef().getRefId() << "\".";
     }
-
+    
+    #ifndef __SWITCH__
     // Use capsule shape only if base is square (nonuniform scaling apparently doesn't work on it)
     if (std::abs(mHalfExtents.x()-mHalfExtents.y())<mHalfExtents.x()*0.05 && mHalfExtents.z() >= mHalfExtents.x())
     {
@@ -62,10 +63,13 @@ Actor::Actor(const MWWorld::Ptr& ptr, osg::ref_ptr<const Resource::BulletShape> 
     }
     else
     {
+    #endif
         mShape.reset(new btBoxShape(Misc::Convert::toBullet(mHalfExtents)));
         mRotationallyInvariant = false;
+    #ifndef __SWITCH__
     }
-
+    #endif
+    
     mConvexShape = static_cast<btConvexShape*>(mShape.get());
 
     mCollisionObject.reset(new btCollisionObject);
