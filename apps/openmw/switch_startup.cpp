@@ -187,7 +187,7 @@ namespace Switch
             "a:b0,b:b1,back:b11,dpdown:b15,dpleft:b12,"
             "dpright:b14,dpup:b13,leftshoulder:b6,leftstick:b4,lefttrigger:b8,"
             "leftx:a0,lefty:a1,rightshoulder:b7,rightstick:b5,righttrigger:b9,"
-            "rightx:a2,righty:a3,start:b10,x:b2,y:b3"
+            "rightx:a2,righty:a3,start:b10,x:b2,y:b3,"
         );
 
         // switch-sdl2 actually ignores this (why), but just in case, disable OSK
