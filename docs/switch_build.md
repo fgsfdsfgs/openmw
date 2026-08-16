@@ -13,9 +13,8 @@ The rest of the dependencies can be acquired using `dkp-pacman`.
 ```
 source $DEVKITPRO/switchvars.sh
 mkdir switchbuild && cd switchbuild
-cmake \
+aarch64-none-elf-cmake \
 -G"Unix Makefiles" \
--DCMAKE_TOOLCHAIN_FILE="$DEVKITPRO/switch.cmake" \
 -DCMAKE_BUILD_TYPE=Release \
 -DPKG_CONFIG_EXECUTABLE="$DEVKITPRO/portlibs/switch/bin/aarch64-none-elf-pkg-config" \
 -DCMAKE_INSTALL_PREFIX="$DEVKITPRO/portlibs/switch" \
@@ -31,4 +30,5 @@ cmake \
 -DBUILD_MYGUI_PLUGIN=OFF \
 -DOSG_STATIC=TRUE \
 ..
+make -j8
 ```

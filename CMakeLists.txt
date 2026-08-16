@@ -50,6 +50,15 @@ if (ANDROID)
     set (OSG_PLUGINS_DIR CACHE STRING "")
 endif()
 
+if (SWITCH_LIBNX)
+    if(NOT NINTENDO_SWITCH)
+        # for some reason these don't get included automatically on my setup
+        set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "$ENV{DEVKITPRO}/cmake")
+        include("$ENV{DEVKITPRO}/cmake/Switch.cmake")
+        include("$ENV{DEVKITPRO}/cmake/Platform/NintendoSwitch.cmake")
+    endif()
+endif()
+
 # Version
 message(STATUS "Configuring OpenMW...")
 
@@ -126,7 +135,10 @@ elseif(SWITCH_LIBNX)
     set(OSG_PLUGINS_DIR CACHE STRING "")
     add_definitions(-D__SWITCH__ -Wfatal-errors)
     include_directories(SYSTEM "$ENV{DEVKITPRO}/libnx/include")
+    include_directories(SYSTEM "$ENV{DEVKITPRO}/portlibs/switch/include/AL")
     include_directories("${PROJECT_SOURCE_DIR}/extern/switch")
+    # GCC 16 is a lot more strict
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 elseif(UNIX)
     # Paths
     SET(BINDIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE PATH "Where to install binaries")

@@ -3,6 +3,7 @@
 #include <osgUtil/CullVisitor>
 
 #include <sstream>
+#include <limits>
 
 #include <components/misc/constants.hpp>
 #include <components/sceneutil/mwshadowtechnique.hpp>

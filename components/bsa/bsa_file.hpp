@@ -25,6 +25,7 @@
 #define BSA_BSA_FILE_H
 
 #include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 #include <map>

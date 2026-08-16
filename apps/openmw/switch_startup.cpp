@@ -33,9 +33,9 @@ namespace Switch
     std::string username = "";
 
     // read username from the account with the specified id
-    void readUsername(u128 userId)
+    void readUsername(const AccountUid& userId)
     {
-        auto rc = accountInitialize();
+        auto rc = accountInitialize(AccountServiceType_Application);
         if (R_FAILED(rc))
             return;
 
@@ -53,9 +53,9 @@ namespace Switch
                 // otherwise throw it out for the time being, since fs seems
                 // allergic to certain UTF-8 characters 
                 bool clean = true;
-                for (size_t i = 0; i < sizeof(pb.username) && pb.username[i]; ++i)
+                for (size_t i = 0; i < sizeof(pb.nickname) && pb.nickname[i]; ++i)
                 {
-                    if (!std::isprint(pb.username[i]))
+                    if (!std::isprint(pb.nickname[i]))
                     {
                         clean = false;
                         break;
@@ -63,7 +63,7 @@ namespace Switch
                 }
 
                 if (clean)
-                    username = std::string(pb.username);
+                    username = std::string(pb.nickname);
             }
 
             accountProfileClose(&profile);
@@ -74,19 +74,19 @@ namespace Switch
 
     // taken from Checkpoint's account.cpp
     // pops up a user selection applet and gets the user id you select
-    u128 selectProfile()
+    AccountUid selectProfile()
     {
-        u128 out_id = 0;
+        AccountUid out_id {{ 0, 0 }};
         LibAppletArgs args;
         libappletArgsCreate(&args, 0x10000);
         u8 st_in[0xA0]  = {0};
         u8 st_out[0x18] = {0};
         size_t repsz;
-        Result res = libappletLaunch(AppletId_playerSelect, &args, st_in, 0xA0, st_out, 0x18, &repsz);
+        Result res = libappletLaunch(AppletId_LibraryAppletPlayerSelect, &args, st_in, 0xA0, st_out, 0x18, &repsz);
         if (R_SUCCEEDED(res))
         {
             u64 lres = *(u64*)st_out;
-            u128 uid = *(u128*)&st_out[8];
+            AccountUid uid = *(AccountUid*)&st_out[8];
             if (lres == 0)
                 out_id = uid;
         }
@@ -183,13 +183,15 @@ namespace Switch
 
         // swap A, B and X, Y to correct positions
         SDL_GameControllerAddMapping(
-            "53776974636820436F6E74726F6C6C65,Switch Controller,"
-            "a:b0,b:b1,back:b11,"
-            "dpdown:b15,dpleft:b12,dpright:b14,dpup:b13,"
-            "leftshoulder:b6,leftstick:b4,lefttrigger:b8,leftx:a0,lefty:a1,"
-            "rightshoulder:b7,rightstick:b5,righttrigger:b9,rightx:a2,righty:a3,"
-            "start:b10,x:b2,y:b3"
+            "000038f853776974636820436f6e7400,Switch Controller,"
+            "a:b0,b:b1,back:b11,dpdown:b15,dpleft:b12,"
+            "dpright:b14,dpup:b13,leftshoulder:b6,leftstick:b4,lefttrigger:b8,"
+            "leftx:a0,lefty:a1,rightshoulder:b7,rightstick:b5,righttrigger:b9,"
+            "rightx:a2,righty:a3,start:b10,x:b2,y:b3"
         );
+
+        // switch-sdl2 actually ignores this (why), but just in case, disable OSK
+        SDL_SetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD, "0");
 
         // get and save the username for getUserDataPath
         readUsername(selectProfile());

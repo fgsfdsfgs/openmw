@@ -4,6 +4,8 @@
 
 #include <components/settings/settings.hpp>
 
+#include <limits>
+
 namespace SceneUtil
 {
     using namespace osgShadow;

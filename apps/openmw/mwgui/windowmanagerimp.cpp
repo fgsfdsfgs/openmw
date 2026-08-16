@@ -1681,10 +1681,12 @@ namespace MWGui
 
     void WindowManager::onKeyFocusChanged(MyGUI::Widget *widget)
     {
+#ifndef __SWITCH__
         if (widget && widget->castType<MyGUI::EditBox>(false))
             SDL_StartTextInput();
         else
             SDL_StopTextInput();
+#endif
     }
 
     void WindowManager::setEnemy(const MWWorld::Ptr &enemy)

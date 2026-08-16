@@ -23,6 +23,7 @@
 #include <osg/Geometry>
 #include <osg/io_utils>
 
+#include <limits>
 #include <sstream>
 
 namespace {

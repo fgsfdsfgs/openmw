@@ -195,9 +195,12 @@ if (SWITCH_LIBNX)
         glapi
         drm_nouveau
         freetype
+        harfbuzz
         jpeg
         png
+        openal
         bz2
+        lzma
         z
         nx
         m
@@ -266,9 +269,9 @@ if (SWITCH_LIBNX)
     add_custom_command(
         TARGET openmw POST_BUILD
         COMMAND
-            aarch64-none-elf-strip -o ${CMAKE_BINARY_DIR}/openmw_stripped ${CMAKE_BINARY_DIR}/openmw
+            aarch64-none-elf-strip -o ${CMAKE_BINARY_DIR}/openmw_stripped.elf ${CMAKE_BINARY_DIR}/openmw.elf
         COMMAND
-            elf2nro ${CMAKE_BINARY_DIR}/openmw_stripped ${CMAKE_BINARY_DIR}/openmw.nro
+            elf2nro ${CMAKE_BINARY_DIR}/openmw_stripped.elf ${CMAKE_BINARY_DIR}/openmw.nro
             --icon=${CMAKE_SOURCE_DIR}/files/switch/openmw.jpg
             --nacp=${CMAKE_SOURCE_DIR}/files/switch/openmw.nacp
     )
